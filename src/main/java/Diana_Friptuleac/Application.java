@@ -96,7 +96,14 @@ public class Application {
         System.out.println();
         System.out.println("------------------------Ricerca per nr. giocatori-------------------");
         newCollezione.fitraGiocatori(4);
+        System.out.println("**************************************************************");
         newCollezione.fitraGiocatori(1);
+
+        System.out.println();
+        System.out.println("------------------------Rimuovere passando l'ID-------------------");
+        newCollezione.removeG(8594124);
+        System.out.println();
+        newCollezione.removeG(252222);
 
     }
 }

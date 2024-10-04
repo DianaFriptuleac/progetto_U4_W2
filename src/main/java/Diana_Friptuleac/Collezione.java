@@ -4,7 +4,6 @@ import Diana_Friptuleac.Classi.AllGiochi;
 import Diana_Friptuleac.Classi.GiocoTavolo;
 import exceptions.DuplicateException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,7 +55,7 @@ public class Collezione {
     }
 
     //Filtra per numero di giocatori
-    public List<AllGiochi> fitraGiocatori(int nrGiocatori) {
+    public void fitraGiocatori(int nrGiocatori) {
         List<GiocoTavolo> giochiPerGiocatore = giochi.stream().filter(gioco -> gioco instanceof GiocoTavolo)
                 .map(gioco -> (GiocoTavolo) gioco)
                 .filter(gioco -> gioco.getNumeroGiocatori() == nrGiocatori).collect(Collectors.toList());
@@ -68,6 +67,16 @@ public class Collezione {
                 System.out.println("Gioco: " + gioco.getTitolo() + " - Numero di giocatori: " + gioco.getNumeroGiocatori());
             }
         }
-        return new ArrayList<>(giochiPerGiocatore);
+    }
+
+    //Rimozione dato un ID
+    public void removeG(int id) {
+        Optional<AllGiochi> rGioco = giochi.stream().filter(gioco -> gioco.getId() == id).findFirst();
+        if (rGioco.isPresent()) {
+            giochi.remove(rGioco.get());
+            System.out.println("Il gioco " + id + " e stato rimosso con successo!");
+        } else {
+            System.out.println("Non ci sono giochi con questo id " + id);
+        }
     }
 }
