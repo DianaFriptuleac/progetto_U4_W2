@@ -4,12 +4,12 @@ import Diana_Friptuleac.Classi.AllGiochi;
 import Diana_Friptuleac.Classi.Genere;
 import Diana_Friptuleac.Classi.GiocoTavolo;
 import Diana_Friptuleac.Classi.Videogioco;
-import exceptions.DuplicateException;
 import exceptions.ListEmptyException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
@@ -49,8 +49,151 @@ public class Application {
         System.out.println("--------------------------Aggiungi un videogioco-------------------");
 
         Collezione newCollezione = new Collezione(giochi);
+        Scanner scanner = new Scanner(System.in);
 
-        // Agg. un videogioco
+        while (true) {
+            System.out.println("************************ Menu ************************************");
+            System.out.println();
+            System.out.println("1. Aggiungi un gioco alla collezione");
+            System.out.println("2. Cerca un gioco con il suo id");
+            System.out.println("3. Cerca i giochi con il prezzo minore rispetto a quello inserito");
+            System.out.println("4. Cerca i giochi per il numero di giocatori");
+            System.out.println("5. Rimuovi un gioco passandoli l'id");
+            System.out.println("6. Aggiorna un gioco passandoli l'id");
+            System.out.println("7. Visualizza le statistiche dei giochi");
+            System.out.println("8. Per uscire ");
+            System.out.println();
+
+            int numeroMenu = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (numeroMenu) {
+                case 1:
+                    System.out.println("Inserisci il tipo di gioco (1 per i videogiochi, 2 per giochi da tavolo): ");
+                    int scelta = scanner.nextInt();
+                    scanner.nextLine();
+                    if (scelta == 1) {
+                        addVideogioco(scanner, newCollezione);
+                    } else if (scelta == 2) {
+                        addGiocoTavolo(scanner, newCollezione);
+                    } else {
+                        System.out.println("Numero inserito non valido!");
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("Inserisci l'id del gioco da cercare: ");
+                    int idDaCercare = scanner.nextInt();
+                    newCollezione.trovaGioco(idDaCercare);
+                    break;
+
+                case 3:
+                    System.out.println("Inserisci il prezzo massimo: ");
+                    double maxPr = scanner.nextDouble();
+                    newCollezione.filtraPrezzo(maxPr);
+                    break;
+
+                case 4:
+                    System.out.println("Inserisci il numero di giocatori per cercare un giioco: ");
+                    int nrGiocatori = scanner.nextInt();
+                    newCollezione.fitraGiocatori(nrGiocatori);
+                    break;
+
+                case 5:
+                    System.out.println("Inserisci l'id del gioco da rimuovere: ");
+                    int idDaRim = scanner.nextInt();
+                    newCollezione.removeG(idDaRim);
+                    break;
+
+                case 6:
+                    System.out.println("Inserisci l'id del gioco da aggiornare");
+                    int idAgg = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Il nuovo titolo: ");
+                    String newTitolo = scanner.nextLine();
+                    System.out.print("Inserisci il nuovo prezzo: ");
+                    double newPrezzo = scanner.nextDouble();
+                    System.out.print("Inserisci la nuova data di pubblicazione (YYYY-MM-DD): ");
+                    LocalDate nuovaData = LocalDate.parse(scanner.next());
+                    newCollezione.aggiornaGioco(idAgg, newTitolo, newPrezzo, nuovaData);
+                    break;
+                case 7:
+                    try {
+                        newCollezione.allStatistics();
+                    } catch (ListEmptyException e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                    break;
+                case 8:
+                    System.out.println("Sessione Finita!");
+                    return;
+                default:
+                    System.out.println("Scelta non valida!");
+                    break;
+            }
+
+
+        }
+    }
+
+    private static void addVideogioco(Scanner scanner, Collezione collezione) {
+        System.out.print("Inserisci l'ID del videogioco: ");
+
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Inserisci il titolo del videogioco: ");
+        String titolo = scanner.nextLine();
+
+        System.out.print("Inserisci la piattaforma: ");
+        String piattaforma = scanner.nextLine();
+
+        System.out.print("Inserisci il prezzo: ");
+        double prezzo = scanner.nextDouble();
+
+        System.out.print("Inserisci la durata in ore: ");
+        int durata = scanner.nextInt();
+
+        System.out.print("Inserisci il genere- scegli un nr: ");
+        for (Genere g : Genere.values()) {
+            System.out.println(g.ordinal() + 1 + " - " + g.name()); //posizione e nome
+        }
+
+        int myGenere = scanner.nextInt();
+        Genere genere = Genere.values()[myGenere - 1];
+        System.out.print("Inserisci la data di pubblicazione (YYYY-MM-DD): ");
+        LocalDate dataPubb = LocalDate.parse(scanner.next());
+
+        Videogioco nuovoVideogioco = new Videogioco(id, titolo, dataPubb, prezzo, piattaforma, durata, genere);
+        collezione.aggGioco(nuovoVideogioco);
+    }
+
+
+    private static void addGiocoTavolo(Scanner scanner, Collezione collezione) {
+        System.out.print("Inserisci l'ID del gioco da tavolo: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Inserisci il titolo del gioco da tavolo: ");
+        String titolo = scanner.nextLine();
+
+        System.out.print("Inserisci il numero di giocatori: ");
+        int numGioc = scanner.nextInt();
+
+        System.out.print("Inserisci la durata in minuti: ");
+        int durata = scanner.nextInt();
+
+        System.out.print("Inserisci il prezzo: ");
+        double prezzo = scanner.nextDouble();
+
+        System.out.print("Inserisci la data di pubblicazione (YYYY-MM-DD): ");
+        LocalDate dataPubbli = LocalDate.parse(scanner.next());
+
+        GiocoTavolo nuovoGiocoTavolo = new GiocoTavolo(id, titolo, dataPubbli, prezzo, numGioc, durata);
+        collezione.aggGioco(nuovoGiocoTavolo);
+    }
+}
+
+        /* Agg. un videogioco
         Videogioco newVideoGioco = new Videogioco(4512245, "Assassin's Creed", LocalDate.of(2007, 5, 25), 31.99, "PS4", 120, Genere.AVVENTURA);
         newCollezione.aggGioco(newVideoGioco);
 
@@ -120,4 +263,4 @@ public class Application {
             System.out.println("Errore: " + e.getMessage());
         }
     }
-}
+}*/
