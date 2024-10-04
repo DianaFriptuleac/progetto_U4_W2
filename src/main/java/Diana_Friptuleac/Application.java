@@ -86,5 +86,13 @@ public class Application {
         newCollezione.trovaGioco(25010);
         newCollezione.trovaGioco(10000); //non esistente
 
+        System.out.println();
+        System.out.println("------------------------Ricerca per prezzo-------------------");
+
+        newCollezione.filtraPrezzo(20.00);
+        System.out.println("**************************************************************");
+        newCollezione.filtraPrezzo(3.00);
+
+
     }
 }

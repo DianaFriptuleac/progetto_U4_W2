@@ -5,6 +5,7 @@ import exceptions.DuplicateException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Collezione {
 
@@ -35,5 +36,20 @@ public class Collezione {
         } else {
             System.out.println("Il gioco con l'id " + id + " non è stato trovato.");
         }
+    }
+
+    //Filtro per prezzo
+    public List<AllGiochi> filtraPrezzo(double maxP) {
+        List<AllGiochi> giochiFiltrati = giochi.stream().filter(gioco -> gioco.getPrezzo() < maxP).collect(Collectors.toList());
+        if (giochiFiltrati.isEmpty()) {
+            System.out.println("Non ci sono giochi con il prezzo inferiore a " + maxP);
+        } else {
+            System.out.println("La lista dei giochi con il prezzo inferiore a " + maxP + ":");
+            for (AllGiochi gioco : giochiFiltrati) {
+                System.out.println("Gioco: " + gioco.getTitolo() + " - " + gioco.getPrezzo() + " euro.");
+            }
+
+        }
+        return giochiFiltrati;
     }
 }
