@@ -2,9 +2,13 @@ package Diana_Friptuleac;
 
 import Diana_Friptuleac.Classi.AllGiochi;
 import Diana_Friptuleac.Classi.GiocoTavolo;
+import Diana_Friptuleac.Classi.Videogioco;
 import exceptions.DuplicateException;
+import exceptions.ListEmptyException;
 
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -95,6 +99,33 @@ public class Collezione {
         } else {
             System.out.println("Non ci soono giochi con l'id: " + id);
         }
+    }
+
+    //statistiche
+    public void allStatistics() {
+        long totVideoG = giochi.stream().filter(gioco -> gioco instanceof Videogioco).count();
+        long totTavoloG = giochi.stream().filter(gioco -> gioco instanceof GiocoTavolo).count();
+        if (totVideoG == 0) {
+            throw new ListEmptyException("Nessun videogioco trovato!");
+        }
+        if (totTavoloG == 0) {
+            throw new ListEmptyException("Nessun gioco da tavolo trovato!");
+        }
+        DoubleSummaryStatistics statistichePrezzi = giochi.stream().mapToDouble(gioco -> gioco.getPrezzo()).summaryStatistics();
+        System.out.println("Statistiche: ");
+        System.out.println("Il numero totale dei videogiochi è: " + totVideoG);
+        System.out.println("*********************************************************");
+        System.out.println("Il numero totale di giochi da tavolo è: " + totTavoloG);
+
+        if (statistichePrezzi.getCount() > 0) {
+            Optional<AllGiochi> gicoPiuCaro = giochi.stream().max(Comparator.comparingDouble(gioco -> gioco.getPrezzo()));
+            System.out.println("Il prezzo massimo di un gioco è di: " + statistichePrezzi.getMax()
+                    + " euro per il gioco " + gicoPiuCaro.get().getTitolo());
+            System.out.println("II prezzo medio dei gioche è di " + statistichePrezzi.getAverage() + " euro");
+        } else {
+            throw new ListEmptyException("Zero giochi nella collezione!");
+        }
 
     }
+
 }

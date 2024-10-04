@@ -5,6 +5,7 @@ import Diana_Friptuleac.Classi.Genere;
 import Diana_Friptuleac.Classi.GiocoTavolo;
 import Diana_Friptuleac.Classi.Videogioco;
 import exceptions.DuplicateException;
+import exceptions.ListEmptyException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -110,5 +111,13 @@ public class Application {
         newCollezione.aggiornaGioco(10015, "New Exploding Kittens", 30.99, LocalDate.of(2020, 2, 1));
         System.out.println("**************************************************************");
         newCollezione.aggiornaGioco(10000, "New Exploding Kittens", 30.99, LocalDate.of(2020, 2, 1));
+
+        System.out.println();
+        System.out.println("------------------------Statistiche-------------------");
+        try {
+            newCollezione.allStatistics();
+        } catch (ListEmptyException e) {
+            System.out.println("Errore: " + e.getMessage());
+        }
     }
 }
