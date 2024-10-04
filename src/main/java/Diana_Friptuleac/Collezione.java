@@ -4,6 +4,7 @@ import Diana_Friptuleac.Classi.AllGiochi;
 import Diana_Friptuleac.Classi.GiocoTavolo;
 import exceptions.DuplicateException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,5 +79,22 @@ public class Collezione {
         } else {
             System.out.println("Non ci sono giochi con questo id " + id);
         }
+    }
+
+    //Aggiorno per Id
+    public void aggiornaGioco(int id, String newTitolo, double newPrice, LocalDate newAnnoPub) {
+        Optional<AllGiochi> aggiorna = giochi.stream().filter(gioco -> gioco.getId() == id).map(gioco -> {
+            gioco.setTitolo(newTitolo);
+            gioco.setPrezzo(newPrice);
+            gioco.setAnnoPublicazione(newAnnoPub);
+            return gioco;
+        }).findFirst();
+        if (aggiorna.isPresent()) {
+            AllGiochi gioco = aggiorna.get();
+            System.out.println("Il gioco '" + gioco.getTitolo() + "' è stato aggiornato correttamente. Il suo ID è: " + id);
+        } else {
+            System.out.println("Non ci soono giochi con l'id: " + id);
+        }
+
     }
 }

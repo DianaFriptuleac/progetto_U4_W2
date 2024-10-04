@@ -105,5 +105,10 @@ public class Application {
         System.out.println();
         newCollezione.removeG(252222);
 
+        System.out.println();
+        System.out.println("------------------------Aggiorna gioco passando l'ID-------------------");
+        newCollezione.aggiornaGioco(10015, "New Exploding Kittens", 30.99, LocalDate.of(2020, 2, 1));
+        System.out.println("**************************************************************");
+        newCollezione.aggiornaGioco(10000, "New Exploding Kittens", 30.99, LocalDate.of(2020, 2, 1));
     }
 }
