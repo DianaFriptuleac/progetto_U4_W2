@@ -1,8 +1,10 @@
 package Diana_Friptuleac;
 
 import Diana_Friptuleac.Classi.AllGiochi;
+import Diana_Friptuleac.Classi.GiocoTavolo;
 import exceptions.DuplicateException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,5 +53,21 @@ public class Collezione {
 
         }
         return giochiFiltrati;
+    }
+
+    //Filtra per numero di giocatori
+    public List<AllGiochi> fitraGiocatori(int nrGiocatori) {
+        List<GiocoTavolo> giochiPerGiocatore = giochi.stream().filter(gioco -> gioco instanceof GiocoTavolo)
+                .map(gioco -> (GiocoTavolo) gioco)
+                .filter(gioco -> gioco.getNumeroGiocatori() == nrGiocatori).collect(Collectors.toList());
+        if (giochiPerGiocatore.isEmpty()) {
+            System.out.println("Non ci sono giochi con questo numero di gioccatori");
+        } else {
+            System.out.println("La lista dei giochi con un numero di giocatori inferiore o uguale a " + nrGiocatori + ":");
+            for (GiocoTavolo gioco : giochiPerGiocatore) {
+                System.out.println("Gioco: " + gioco.getTitolo() + " - Numero di giocatori: " + gioco.getNumeroGiocatori());
+            }
+        }
+        return new ArrayList<>(giochiPerGiocatore);
     }
 }

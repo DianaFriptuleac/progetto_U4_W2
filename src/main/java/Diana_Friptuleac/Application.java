@@ -93,6 +93,10 @@ public class Application {
         System.out.println("**************************************************************");
         newCollezione.filtraPrezzo(3.00);
 
+        System.out.println();
+        System.out.println("------------------------Ricerca per nr. giocatori-------------------");
+        newCollezione.fitraGiocatori(4);
+        newCollezione.fitraGiocatori(1);
 
     }
 }
